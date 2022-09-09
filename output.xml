@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20220909 16:22:55.457" rpa="true" schemaversion="3">
+<suite id="s1" name="Tasks" source="d:\RPA\arcdps-robot\tasks.robot">
+<test id="s1-t1" name="Install latest Arcdps for Guild Wars 2" line="15">
+<kw name="Check Guild Wars 2 folder exists">
+<kw name="Directory Should Exist" library="OperatingSystem">
+<arg>path=${GW2_FOLDER_PATH}</arg>
+<doc>Fails unless the given path points to an existing directory.</doc>
+<msg timestamp="20220909 16:22:56.394" level="INFO" html="true">Directory '&lt;a href="file://C:\Program Files\Guild Wars 2"&gt;C:\Program Files\Guild Wars 2&lt;/a&gt;' exists.</msg>
+<status status="PASS" starttime="20220909 16:22:56.394" endtime="20220909 16:22:56.394"/>
+</kw>
+<status status="PASS" starttime="20220909 16:22:56.393" endtime="20220909 16:22:56.394"/>
+</kw>
+<kw name="Check if Arcdps installed">
+<kw name="Does File Exist" library="RPA.FileSystem">
+<var>${file_exists}</var>
+<arg>path=${GW2_FOLDER_PATH}\\${ARCDPS_DLL}</arg>
+<doc>Returns True if the given file exists, False if not.</doc>
+<msg timestamp="20220909 16:22:56.396" level="INFO">${file_exists} = True</msg>
+<status status="PASS" starttime="20220909 16:22:56.395" endtime="20220909 16:22:56.396"/>
+</kw>
+<if>
+<branch type="IF" condition="${file_exists} is False">
+<kw name="Download and Install latest Arcdps">
+<status status="NOT RUN" starttime="20220909 16:22:56.396" endtime="20220909 16:22:56.396"/>
+</kw>
+<status status="NOT RUN" starttime="20220909 16:22:56.396" endtime="20220909 16:22:56.396"/>
+</branch>
+<status status="PASS" starttime="20220909 16:22:56.396" endtime="20220909 16:22:56.396"/>
+</if>
+<status status="PASS" starttime="20220909 16:22:56.395" endtime="20220909 16:22:56.397"/>
+</kw>
+<kw name="Check latest version is installed">
+<kw name="Get File Modified Date" library="RPA.FileSystem">
+<var>${local_version}</var>
+<arg>path=${GW2_FOLDER_PATH}\\${ARCDPS_DLL}</arg>
+<doc>Returns the modified time in seconds.</doc>
+<msg timestamp="20220909 16:22:56.398" level="INFO">${local_version} = 1662729748.5178237</msg>
+<status status="PASS" starttime="20220909 16:22:56.397" endtime="20220909 16:22:56.398"/>
+</kw>
+<kw name="Retrieve last modified Date">
+<var>${latest_version}</var>
+<kw name="Open Headless Chrome Browser" library="RPA.Browser.Selenium">
+<arg>${ARCDPS_WEBSITE_URL}</arg>
+<doc>Open Chrome browser in headless mode.</doc>
+<msg timestamp="20220909 16:22:56.398" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20220909 16:22:56.414" level="INFO">Created download root directory: C:\Users\Jani\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20220909 16:22:56.414" level="INFO">Created symlink directory: C:\Users\Jani\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20220909 16:22:56.414" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20220909 16:22:57.402" level="INFO">Created Chrome browser with arguments: --headless --disable-gpu --window-size=1440,900 --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20220909 16:22:57.402" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20220909 16:22:57.402" level="INFO">Opening url 'https://www.deltaconnected.com/arcdps/x64/'</msg>
+<status status="PASS" starttime="20220909 16:22:56.398" endtime="20220909 16:22:57.557"/>
+</kw>
+<kw name="Get Table Cell" library="RPA.Browser.Selenium">
+<arg>xpath://table[@id="indexlist"]</arg>
+<arg>2</arg>
+<arg>2</arg>
+<doc>Returns contents of a table cell.</doc>
+<status status="PASS" starttime="20220909 16:22:57.557" endtime="20220909 16:22:57.609"/>
+</kw>
+<msg timestamp="20220909 16:22:57.609" level="INFO">${latest_version} = None</msg>
+<status status="PASS" starttime="20220909 16:22:56.398" endtime="20220909 16:22:57.609"/>
+</kw>
+<status status="PASS" starttime="20220909 16:22:56.397" endtime="20220909 16:22:57.609"/>
+</kw>
+<kw name="Download and Install latest Arcdps">
+<kw name="Download" library="RPA.HTTP">
+<arg>${ARCDPS_WEBSITE_URL}/${ARCDPS_DLL}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20220909 16:22:57.610" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20220909 16:22:57.610" level="INFO">Creating Session using : alias=rpasession_alias.httpswww.deltaconnected.com, url=https://www.deltaconnected.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" starttime="20220909 16:22:57.610" endtime="20220909 16:23:03.940"/>
+</kw>
+<kw name="Move File" library="OperatingSystem">
+<arg>${ARCDPS_DLL}</arg>
+<arg>${GW2_FOLDER_PATH}</arg>
+<doc>Moves the source file into the destination.</doc>
+<msg timestamp="20220909 16:23:03.967" level="INFO" html="true">Moved file from '&lt;a href="file://D:\RPA\arcdps-robot\d3d11.dll"&gt;D:\RPA\arcdps-robot\d3d11.dll&lt;/a&gt;' to '&lt;a href="file://C:\Program Files\Guild Wars 2\d3d11.dll"&gt;C:\Program Files\Guild Wars 2\d3d11.dll&lt;/a&gt;'.</msg>
+<status status="PASS" starttime="20220909 16:23:03.940" endtime="20220909 16:23:03.967"/>
+</kw>
+<status status="PASS" starttime="20220909 16:22:57.610" endtime="20220909 16:23:03.967"/>
+</kw>
+<status status="PASS" starttime="20220909 16:22:56.393" endtime="20220909 16:23:03.968"/>
+</test>
+<doc>Install latest Arcdps for Guild Wars 2</doc>
+<status status="PASS" starttime="20220909 16:22:55.458" endtime="20220909 16:23:03.970"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tasks">Tasks</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
